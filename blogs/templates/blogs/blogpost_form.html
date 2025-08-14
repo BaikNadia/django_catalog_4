@@ -1,0 +1,13 @@
+{% extends 'catalog/home.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Создать новую запись</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'blogs:blogpost_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
