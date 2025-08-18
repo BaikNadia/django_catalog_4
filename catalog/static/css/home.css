@@ -1,0 +1,28 @@
+/* catalog/static/css/home.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.hero-banner {
+    position: relative;
+    height: 100vh; /* Занимает всю высоту экрана */
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+/* catalog/static/css/home.css */
+.display-4 {
+    font-size: 5rem; /* Увеличиваем размер шрифта */
+    color: #007bff; /* Синий цвет (#007bff — стандартный синий Bootstrap) */
+}
