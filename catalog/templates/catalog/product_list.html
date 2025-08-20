@@ -1,38 +1,41 @@
-
 {% extends 'catalog/base.html' %}
 {% load static %}
 
 {% block content %}
-    <section class="album py-5 bg-body-tertiary">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for product in products %}
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 225px; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">
-                                    {{ product.description|slice:":100" }}
-                                    {% if product.description|length > 100 %}...{% endif %}
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">{{ product.price }} ₽</small>
-                                    <div class="btn-group">
-                                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">В корзину</button>
-                                    </div>
+<section class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Все товары</h2>
+            <a href="{% url 'catalog:product_create' %}" class="btn btn-success">➕ Добавить товар</a>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for product in products %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 225px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">
+                                {{ product.description|slice:":100" }}
+                                {% if product.description|length > 100 %}...{% endif %}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ product.purchase_price }} ₽</small>
+                                <div class="btn-group">
+                                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">В корзину</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% empty %}
-                    <div class="col text-center">
-                        <p class="text-muted">Товары не найдены.</p>
-                    </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% empty %}
+                <div class="col text-center">
+                    <p class="text-muted">Товары не найдены.</p>
+                </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
-
