@@ -29,15 +29,7 @@ class ProductCreateView(CreateView):
         messages.success(self.request, f"Товар '{form.cleaned_data['name']}' успешно создан.")
         return super().form_valid(form)
 
-# class ProductUpdateView(UpdateView):
-#     model = Product
-#     form_class = ProductForm
-#     template_name = 'catalog/product_form.html'
-#     success_url = reverse_lazy('catalog:product_list')
-#
-#     def form_valid(self, form):
-#         messages.success(self, f"Товар '{form.cleaned_data['name']}' успешно обновлён.")
-#         return super().form_valid(form)
+
 
 class ProductUpdateView(UpdateView):
     model = Product
