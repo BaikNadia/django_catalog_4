@@ -1,6 +1,6 @@
 import os
 
-from django.conf.global_settings import DEFAULT_AUTO_FIELD
+from django.conf.global_settings import DEFAULT_AUTO_FIELD, AUTH_USER_MODEL
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -10,18 +10,13 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=True if os.getenv('DEBUG') == "True" else False
 
-
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -34,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'blogs',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +47,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,7 +120,27 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = 'catalog:home'
+LOGOUT_REDIRECT_URL = 'catalog:home'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import os
+from dotenv import load_dotenv
+
+# Загружаем переменные из .env
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
