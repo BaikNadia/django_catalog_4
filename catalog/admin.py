@@ -22,10 +22,11 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'purchase_price',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'owner'
     )
-    list_filter = ('category', 'created_at', 'updated_at')
-    search_fields = ('name', 'category__name')
+    list_filter = ('category', 'created_at', 'updated_at', 'owner')
+    search_fields = ('name', 'category__name', 'owner__email')
     ordering = ['-created_at']
     list_per_page = 20
 
