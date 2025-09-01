@@ -1,6 +1,5 @@
 import os
-
-from django.conf.global_settings import DEFAULT_AUTO_FIELD, AUTH_USER_MODEL
+from django.conf.global_settings import DEFAULT_AUTO_FIELD, AUTH_USER_MODEL, SERVER_EMAIL, CACHES
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -14,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG=True if os.getenv('DEBUG') == "True" else False
+DEBUG= os.getenv('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -27,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_redis',
     'catalog',
     'blogs',
     'users',
@@ -128,9 +128,6 @@ LOGOUT_REDIRECT_URL = 'catalog:home'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
-from dotenv import load_dotenv
-
 # Загружаем переменные из .env
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 if os.path.exists(dotenv_path):
@@ -139,8 +136,19 @@ if os.path.exists(dotenv_path):
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_USE_TLS = os.getenv('DEBUG', False) == 'True'
+EMAIL_USE_SSL = os.getenv('DEBUG', False) == 'True'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379/1'
+        }
+    }
