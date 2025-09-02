@@ -1,0 +1,36 @@
+{% extends 'catalog/home.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Блог TechZone</h1>
+        <a href="{% url 'blogs:blogpost_create' %}" class="btn btn-primary">Создать запись</a>
+    </div>
+
+    {% for post in posts %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if post.preview %}
+                    <img src="{{ post.preview.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
+                {% else %}
+                    <div class="bg-light text-center py-5 text-muted">Нет изображения</div>
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text text-muted small">
+                        {{ post.created_at|date:"d.m.Y" }} | Просмотров: {{ post.views_count }}
+                        {% if post.is_published %}<span class="badge bg-success">Опубликовано</span>{% endif %}
+                    </p>
+                    <a href="{% url 'blogs:blogpost_detail' post.pk %}" class="btn btn-outline-primary">Читать далее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Пока нет записей.</p>
+    {% endfor %}
+</div>
+{% endblock %}

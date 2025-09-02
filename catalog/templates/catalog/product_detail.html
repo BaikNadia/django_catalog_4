@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-5">
+        <div class="col-md-6">
+            <img src="{{ product.image|media_filter }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 400px; object-fit: cover;">
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p><strong>Категория:</strong> {{ product.category.name|default:"—" }}</p>
+            <p><strong>Описание:</strong> {{ product.description|default:"—" }}</p>
+            <p><strong>Цена:</strong> {{ product.purchase_price }} ₽</p>
+            <p><strong>Дата создания:</strong> {{ product.created_at|date:"d.m.Y" }}</p>
+            <p><strong>Обновлён:</strong> {{ product.updated_at|date:"d.m.Y" }}</p>
+
+            <div class="mt-4">
+                <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary">← Назад</a>
+                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">Редактировать</a>
+                <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

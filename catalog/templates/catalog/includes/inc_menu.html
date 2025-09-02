@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'catalog:home' %}">
+            <i class="bi bi-box-seam"></i> TechZone
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog:home' %}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog:product_list' %}">Каталог</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center">
+                <a href="https://t.me/techzone" target="_blank" class="text-white me-3">
+                    <i class="bi bi-telegram"></i>
+                </a>
+                <a href="https://wa.me/74951234567" target="_blank" class="text-white me-3">
+                    <i class="bi bi-whatsapp"></i>
+                </a>
+                <a href="https://vk.com/techzone" target="_blank" class="text-white">
+                    <i class="bi bi-vk"></i>
+                </a>
+                <!-- Кнопка регистрации / профиль -->
+                {% if user.is_authenticated %}
+                    <a href="#" class="btn btn-outline-light btn-sm">👤 {{ user.username }}</a>
+                {% else %}
+                    <a href="{% url 'users:register' %}" class="btn btn-outline-light btn-sm">Регистрация</a>
+                {% endif %}
+
+                <!-- Кнопка входа / профиль -->
+<!--                {% if user.is_authenticated %}-->
+<!--                    <span class="text-white me-3">Привет, {{ user.username }}!</span>-->
+<!--                    <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Выход</a>-->
+<!--                {% else %}-->
+<!--                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Войти</a>-->
+<!--                {% endif %}-->
+
+                {% if user.is_authenticated %}
+                    <span class="text-white me-3">Привет, {{ user.username }}!</span>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-light btn-sm">Выход</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Войти</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
