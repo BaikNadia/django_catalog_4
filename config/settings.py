@@ -146,9 +146,17 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CACHE_ENABLED = True
 if CACHE_ENABLED:
+    # CACHES = {
+    #     'default': {
+    #         'BACKEND': 'django_redis.cache.RedisCache',
+    #         'LOCATION': 'redis://127.0.0.1:6379/1'
+    #     }
+    # }
+    # config/settings.py
+
     CACHES = {
         'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/1'
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'my-unique-key-for-dev',
         }
     }
